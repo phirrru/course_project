@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Врач</title>
+    <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon">
+    <link media="all" rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+</head>
+<body>
+
+<div th:insert="blocks/general.html :: header">
+</div>
+<h3 id="talon_title">
+    <CENTER th:each="el : ${doctor_types}">
+        <p th:text="${el.doctor_type}" />
+    </CENTER>
+</h3>
+<div class="container_doctor" th:each="doctors : ${doctors}">
+    <div class="doctor_block">
+        <b class="doctor-text" th:text="${doctors.full_name}"></b>
+    </div>
+    <div class="time_container">
+        <div class="day-container">
+            <p>Понедельник</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==1))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <div class="day-container">
+            <p>Вторник</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==2))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <div class="day-container">
+            <p>Среда</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==3))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <div class="day-container">
+            <p>Четверг</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==4))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <div class="day-container">
+            <p>Пятница</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==5))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <div class="day-container">
+            <p>Суббота</p>
+            <form class="form-container" th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==6))"
+                                th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}"></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>
+        <!-- <div class="day-container">
+            <p>Суббота</p>
+            <form class="form-container">
+                <select name="aaa" id="aaa">
+                    <option>8:00</option>
+                    <option>8:30</option>
+                </select>
+                <button>Выбрать талон</button>
+            </form>
+        </div> -->
+    </div>
+</div>
+
+
+<!--         <div th:each="el : ${doctor_types}">
+            <p th:text="${el.doctor_type}"/>
+        </div>
+
+       <p th:text="${doctor_type_id}"/>
+        <div th:each="doctors : ${doctors}">
+            <b th:text="${doctors.full_name}"/>
+            <p>Доступные талоны:</p>
+            <p>Понедельник:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==1))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+            <p>Вторник:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==2))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+            <p>Среда:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+            <select name="picked_time_slot_id">
+                <div th:each="time_slots : ${time_slots}">
+                    <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==3))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                </div>
+            </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+
+            <p>Четверг:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==4))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+            <p>Пятница:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==5))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+            <p>Суббота:</p>
+            <form th:method="POST" th:action="@{/doctor/{id}(id=${doctors.doctorId})}">
+                <select name="picked_time_slot_id">
+                    <div th:each="time_slots : ${time_slots}">
+                        <option th:if="((${doctors.doctorId}==${time_slots.doctorId}) and (${time_slots.day}==6))" th:value="${time_slots.timeSlotId}" th:text="${time_slots.time}" ></option>
+                    </div>
+                </select>
+                <button type="submit">Выбрать талон</button>
+            </form>
+        </div>-->
+
+
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <!--    <link rel="stylesheet" href="elib\src\main\resources\static\style.css">-->
+<!--    <link th:href="@{style.css}" rel="stylesheet" />-->
+    <link media="all" rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+</head>
+<body>
+
+<div th:insert="blocks/general.html :: header">
+</div>
+<div class="info_container">
+    <div>
+        <b>Информация о пользователе: </b>
+        <p th:text="'Имя пользователя: ' + ${username}" />
+        <p th:text="'Полное имя: ' + ${full_name}" />
+        <p th:if="(!${is_doctor})" th:text="'Дата рождения: ' + ${birth_date}" />
+        <p th:if="(!${is_doctor})" th:text="'Номер полиса: ' + ${polis}" />
+        <p th:if="(${is_doctor})" th:text="'Специализация: ' + ${doctor_type}" />
+    </div>
+    <div class="change_password">
+        <b>
+            <CENTER>Смена пароля:</CENTER>
+        </b><br>
+<!--        <form th:method="POST" th:action="@{/admin_panel/delete/{user_id}(user_id=${el.id})}">-->
+        <form  th:method="Post" th:action="@{/changePassword/{id}(id=${userId})}">
+            <input type="text" name="password"> <br>
+            <button type="submit">Сменить пароль</button>
+        </form>
+    </div>
+</div>
+
+<h3 id="talon_title">
+    <CENTER>ТАЛОНЫ</CENTER>
+</h3>
+<div class="container_talon" th:if="(!${is_doctor})" th:each="el : ${user_time_slots}">
+    <div class="doctor_block_userpage">
+        <p class="talon-doctor-text">
+           <b th:text="${doctorTypeService.getDoctorTypeById(doctorService.getDoctorByDoctorId(el.doctorId).getDoctorTypeId()).getDoctor_type()}"></b>
+        </p>
+        <p class="talon-doctor-text">
+            <b th:text="${doctorService.getDoctorByDoctorId(el.doctorId).getFull_name()}"/>
+<!--            <b th:text="${doctorService.getDoctorByDoctorId(el.doctorId)}"></b>-->
+        </p>
+    </div>
+    <div class="talon_time_container">
+        <p>Номер талона: <b th:text="${el.appointmentId}"></b></p>
+        <p th:if="${el.day}==1">Запись на: <b th:if="${el.day}==1" th:text="Понедельник"></b></p>
+        <p th:if="${el.day}==2">Запись на: <b th:if="${el.day}==2" th:text="Вторник"></b></p>
+        <p th:if="${el.day}==3">Запись на: <b th:if="${el.day}==3" th:text="Среда"></b></p>
+        <p th:if="${el.day}==4">Запись на: <b th:if="${el.day}==4" th:text="Четверг"></b></p>
+        <p th:if="${el.day}==5">Запись на: <b th:if="${el.day}==5" th:text="Пятница"></b></p>
+        <p th:if="${el.day}==6">Запись на: <b th:if="${el.day}==6" th:text="Суббота"></b></p>
+        <p>Время: <b th:text="${el.time}"></b></p>
+        <form class="form-container" th:method="Post" th:action="@{/deleteapp/{id}(id=${el.appointmentId})}">
+            <button type="submit">Удалить талон</button>
+        </form>
+    </div>
+</div>
+
+<div class="container_talon" th:if="(${is_doctor})" th:each="el : ${doctor_time_slots}">
+    <div class="doctor_block_userpage">
+        <p class="talon-doctor-text">
+            <b th:text="${patientService.getPatientByUserId(el.userId).getFull_name}"></b>
+        </p>
+        <p class="talon-doctor-text">
+            <b th:text="'Номер полиса: ' + ${patientService.getPatientByUserId(el.userId).getPolis}"/>
+        </p>
+    </div>
+    <div class="talon_time_container">
+        <p>Номер талона: <b th:text="${el.appointmentId}"></b></p>
+        <p th:if="${el.day}==1">Запись на: <b th:if="${el.day}==1" th:text="Понедельник"></b></p>
+        <p th:if="${el.day}==2">Запись на: <b th:if="${el.day}==2" th:text="Вторник"></b></p>
+        <p th:if="${el.day}==3">Запись на: <b th:if="${el.day}==3" th:text="Среда"></b></p>
+        <p th:if="${el.day}==4">Запись на: <b th:if="${el.day}==4" th:text="Четверг"></b></p>
+        <p th:if="${el.day}==5">Запись на: <b th:if="${el.day}==5" th:text="Пятница"></b></p>
+        <p th:if="${el.day}==6">Запись на: <b th:if="${el.day}==6" th:text="Суббота"></b></p>
+        <p>Время: <b th:text="${el.time}"></b></p>
+        <form class="form-container" th:method="Post" th:action="@{/deleteapp/{id}(id=${el.appointmentId})}">
+            <button type="submit">Удалить талон</button>
+        </form>
+    </div>
+</div>
+
+
+
+<!--
+<div th:if="${is_doctor})" th:each="el : ${doctor_time_slots}">
+    <p th:text="${patientService.getPatientByUserId(el.userId).getFull_name} + ' - запись на ' + ${el.day} + ', ' + ${el.time}"/>
+    <form th:method="Post" th:action="@{/deleteapp/{id}(id=${el.appointmentId})}">
+          <button name="delButton" th:value="${favorite.getId}">X</button>
+        <button type="submit">Удалить талон</button>
+    </form>
+</div>-->
+
+
+
+</body>
+</html>

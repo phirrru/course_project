@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель администратора</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <!--    <link rel="stylesheet" href="elib\src\main\resources\static\style.css">-->
+<!--    <link th:href="@{style.css}" rel="stylesheet" />-->
+    <link media="all" rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+</head>
+<body>
+<div th:insert="blocks/general.html :: header">
+</div>
+
+<h3 id="talon_title">
+    <CENTER th:if="(${is_admin})">ПАНЕЛЬ АДМИНИСТРАТОРА</CENTER>
+</h3>
+<table class="table" th:if="(${is_admin})" >
+    <thead>
+    <tr>
+        <th>Username</th>
+        <th>Роль</th>
+        <th>Доктор/пациент</th>
+        <th>Сменить права</th>
+        <th>Удалить пользователя</th>
+
+    </thead>
+    <tbody>
+    <tr th:each="el : ${user}">
+        <td th:text="${el.username}">user</td>
+        <!-- <td th:text="${el.username}">Юзер Юзерович</td> -->
+        <td>
+            <p th:if="${el.isAdmin}">Администратор</p>
+            <p th:if="!${el.isAdmin}">Пользователь</p>
+        </td>
+        <td>
+            <p th:if="${el.isDoctor}">Доктор</p>
+            <p th:if="!${el.isDoctor}">Пациент</p>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{/admin_panel/{user_id}(user_id=${el.id})}">
+                <select name="new_role">
+                    <option th:value="true" th:text="Администратор">Администратор</option>
+                    <option th:value="false" th:text="Пользователь">Пользователь</option>
+                </select>
+                <button type="submit">Сменить роль</button>
+            </form>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{/admin_panel/delete/{user_id}(user_id=${el.id})}">
+                <button type="submit" class="red_button">Удалить пользователя</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<!--<p th:text="${is_admin}"/>-->
+<!--<div th:if="(${is_admin})" th:each="el : ${user}">-->
+<!--    &lt;!&ndash;    <p th:text="${getDoctorByDoctorId(el.doctorId).getFull_name()}"/>&ndash;&gt;-->
+<!--    <p th:text="'Username: ' + ${el.username} + ' , роль: ' + ${el.getIsAdmin()}"/>-->
+<!--&lt;!&ndash;    <p th:text="'Username: '"/>&ndash;&gt;-->
+<!--    <form th:method="POST" th:action="@{/admin_panel/{user_id}(user_id=${el.id})}">-->
+<!--        <select name="new_role">-->
+<!--            <div>-->
+<!--                <option  th:value="true" th:text="Администратор" ></option>-->
+<!--                <option  th:value="false" th:text="Пользователь" ></option>-->
+<!--            </div>-->
+<!--        </select>-->
+<!--        <button type="submit">Установить роль</button>-->
+<!--    </form>-->
+<!--    <form th:method="POST" th:action="@{/admin_panel/delete/{user_id}(user_id=${el.id})}">-->
+<!--        <button type="submit">Удалить пользователя</button>-->
+<!--    </form>-->
+<!--</div>-->
+
+
+
+</body>
+</html>

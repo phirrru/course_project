@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <!--    <link rel="stylesheet" href="elib\src\main\resources\static\style.css">-->
+    <link th:href="@{css/style.css}" rel="stylesheet" />
+</head>
+<body>
+<p th:text="${message}"/>
+<div th:if="${param.error}">
+    Invalid username and password.
+</div>
+<div th:if="${param.logout}">
+    You have been logged out.
+</div>
+<!--        <form th:action="@{/registration}" method="post">-->
+<!--            <div><label> User Name : <input type="text" name="username"/> </label></div>-->
+<!--            <div><label> Password: <input type="password" name="password"/> </label></div>-->
+<!--            <div><input type="submit" value="Sign In"/></div>-->
+<!--        </form>-->
+
+<form th:action="@{/registration_patient}" method="post">
+    <div class="registration_card">
+        <h2 id="regtext">Форма регистрации пациента</h2>
+        <div>
+            <label>Имя пользователя:<input type="text" name="username" required placeholder="Введите имя пользователя..."/> </label>
+        </div>
+        <br>
+        <div>
+            <label>Пароль:<input type="password" name="password" required placeholder="Введите пароль..."/> </label>
+        </div>
+        <br>
+        <div>
+            <label>Полное имя:<input type="text" name="full_name" required placeholder="Введите имя..."/> </label>
+        </div>
+        <br>
+        <div>
+            <label>Дата рождения:<input type="text" name="birth_date" required placeholder="Введите дату рождения..."/> </label>
+        </div>
+        <br>
+        <div>
+            <label>Номер полиса:<input type="text" name="polis" required placeholder="Введите номер полиса..."/> </label>
+        </div>
+        <br>
+        <button type="submit">Зарегистрироваться</button>
+    </div>
+    <br>
+</form>
+<CENTER><form th:action="@{/login}">
+    <button type="submit" value="Аккаунт уже существует?">Аккаунт уже существует?</button>
+</form></CENTER>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Запись к врачу</title>
+    <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon">
+    <!--    <link rel="stylesheet" href="elib\src\main\resources\static\style.css">-->
+<!--    <link th:href="@{style.css}" rel="stylesheet" />-->
+    <link media="all" rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+</head>
+<body>
+<!--<div th:insert="blocks/general.html :: header0">-->
+    <!--    <a href="index.html"><img src="img/logo.png" alt="logo" width="100px" height="100px"></a>-->
+    <!--    <nav>-->
+    <!--        <a href="enter.html">Вход</a>-->
+    <!--        <a href="registration.html">Регистрация</a>-->
+    <!--    </nav>-->
+<!--</div>-->
+
+<div th:insert="blocks/general.html :: header"/>
+
+<div class="doctor_list" th:if="!${is_doctor}" th:each="el : ${doctor_types}" >
+    <a class="doctor_list_text" th:href="'/doctor_type/' + ${el.doctorTypeId}"><p th:text="${el.doctor_type}"/>
+    </a>
+</div>
+
+<!--    <div th:if="!${is_doctor}" th:each="el : ${doctor_types}" >-->
+<!--&lt;!&ndash;        <p th:text="${el.doctor_type}"/>&ndash;&gt;-->
+<!--&lt;!&ndash;        <p th:text="${el.doctor_type_id}"/>&ndash;&gt;-->
+<!--        <a th:href="'/doctor_type/' + ${el.doctorTypeId}" ><p th:text="${el.doctor_type}"/></a>-->
+<!--    </div>-->
+<!--<p th:text="${user_id}"/>-->
+<!--<p th:text="${is_doctor}"/>-->
+<form th:if="${is_doctor}" th:action="@{/generate_timeslots}" method="post">
+    <div class="registration_card">
+        <h2 >Генерация талонов</h2>
+
+        <div><label> Выберите день:
+            <select name="weekday">
+                <option value="1">Понедельник</option>
+                <option value="2">Вторник</option>
+                <option value="3">Среда</option>
+                <option value="4">Четверг</option>
+                <option value="5">Пятница</option>
+                <option value="6">Суббота</option>
+            </select>
+        </label></div>
+        <br>
+    <div><label> Выберите интервал:
+        <select name="interval">
+            <option value="6">10 мин</option>
+            <option value="4">15 мин</option>
+            <option value="3">20 мин</option>
+            <option value="2">30 мин</option>
+            <option value="1">1 час</option>
+        </select>
+    </label></div>
+        <br>
+        <div><label> С какого времени: <input type="number" name="start_hour" /> </label></div>
+        <br>
+        <div><label> По какое время: <input type="number" name="end_hour" /> </label></div>
+        <br>
+
+
+        <button type="submit">Сгенерировать</button>
+        <br>
+
+    </div>
+    <br>
+    </div>
+</form>
+
+</body>
+</html>
